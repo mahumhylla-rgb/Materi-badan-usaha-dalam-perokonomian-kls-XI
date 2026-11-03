@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Interaktif Ekonomi XI - Badan Usaha dalam Perekonomian</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            800: '#1E3A8A',
+                            900: '#0F172A',
+                        },
+                        gold: {
+                            500: '#F59E0B',
+                            600: '#D97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #3B82F6;
+            border-radius: 10px;
+        }
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body { background: white !important; color: black !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col">
+
+    <!-- TOP HEADER / NAVBAR -->
+    <header class="sticky top-0 z-40 bg-navy-900 text-white shadow-lg border-b border-navy-800 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Brand & Logo -->
+                <div class="flex items-center gap-3">
+                    <button id="sidebarToggleBtn" class="md:hidden p-2 rounded-lg hover:bg-slate-800 text-slate-300 focus:outline-none">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                    <div class="flex items-center gap-2">
+                        <div class="bg-gold-500 text-navy-900 font-extrabold w-10 h-10 rounded-xl flex items-center justify-center text-xl shadow-md">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                        <div>
+                            <h1 class="font-bold text-base sm:text-lg leading-tight tracking-wide text-white">EKONOMI XI</h1>
+                            <p class="text-xs text-gold-500 font-medium hidden sm:block">SMAS Al-Hilaal Tehoru</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Global Search & Actions -->
+                <div class="flex items-center gap-3">
+                    <!-- Search Input -->
+                    <div class="relative hidden sm:block w-48 md:w-64">
+                        <input type="text" id="globalSearchInput" placeholder="Cari materi, kuis..." 
+                            class="w-full pl-9 pr-4 py-1.5 text-sm rounded-full bg-slate-800 text-white placeholder-slate-400 border border-slate-700 focus:outline-none focus:border-blue-500 transition">
+                        <i class="fa-solid fa-search absolute left-3 top-2.5 text-xs text-slate-400"></i>
+                    </div>
+
+                    <!-- Theme Toggle -->
+                    <button id="themeToggleBtn" title="Ubah Mode Terang/Gelap" class="p-2 rounded-full bg-slate-800 hover:bg-slate-700 text-gold-500 transition focus:outline-none">
+                        <i class="fa-solid fa-moon text-lg" id="themeIcon"></i>
+                    </button>
+
+                    <!-- Reset Progress -->
+                    <button id="resetProgressBtn" onclick="resetAllProgress()" title="Reset Progres Belajar" class="p-2 rounded-full bg-slate-800 hover:bg-red-900/50 text-slate-300 hover:text-red-400 transition">
+                        <i class="fa-solid fa-rotate-right text-sm"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Progress Bar Indicator Top Header -->
+        <div class="w-full bg-slate-800 h-1.5">
+            <div id="topProgressBar" class="bg-gradient-to-r from-blue-500 via-gold-500 to-amber-500 h-1.5 w-0 transition-all duration-500"></div>
+        </div>
+    </header>
+
+    <!-- MAIN APP WRAPPER -->
+    <div class="flex-1 flex max-w-7xl w-full mx-auto px-2 sm:px-4 lg:px-8 py-4 gap-6">
+
+        <!-- SIDEBAR NAVIGATION -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-slate-200 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 ease-in-out md:flex md:flex-col shrink-0 rounded-2xl shadow-xl border border-slate-800 overflow-hidden no-print">
+            <div class="p-4 border-b border-slate-800 flex justify-between items-center md:hidden">
+                <span class="font-bold text-gold-500">Menu Navigasi</span>
+                <button id="closeSidebarBtn" class="text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Profile Badge Sidebar -->
+            <div class="p-4 bg-gradient-to-br from-navy-900 to-slate-800 border-b border-slate-800">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-lg border-2 border-gold-500">
+                        SM
+                    </div>
+                    <div class="overflow-hidden">
+                        <h4 class="text-sm font-semibold text-white truncate">Sumila Mahu, S.Pd.</h4>
+                        <p class="text-xs text-slate-400 truncate">Guru Ekonomi XI</p>
+                    </div>
+                </div>
+                <div class="mt-3 bg-slate-800/80 p-2 rounded-lg border border-slate-700/50">
+                    <div class="flex justify-between text-xs mb-1">
+                        <span class="text-slate-400">Progres Belajar</span>
+                        <span id="sidebarProgressPercent" class="font-bold text-gold-500">0%</span>
+                    </div>
+                    <div class="w-full bg-slate-700 h-2 rounded-full overflow-hidden">
+                        <div id="sidebarProgressBar" class="bg-gold-500 h-full w-0 transition-all duration-300"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="flex-1 p-3 space-y-1 overflow-y-auto custom-scrollbar text-sm font-medium">
+                <button onclick="switchTab('beranda')" class="nav-btn active w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition text-left" data-tab="beranda">
+                    <i class="fa-solid fa-house w-5 text-blue-400"></i> Beranda
+                </button>
+                <button onclick="switchTab('petunjuk')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition text-left" data-tab="petunjuk">
+                    <i class="fa-solid fa-circle-info w-5 text-emerald-400"></i> Petunjuk Penggunaan
+                </button>
+                <button onclick="switchTab('capaian')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition text-left" data-tab="capaian">
+                    <i class="fa-solid fa-bullseye w-5 text-purple-400"></i> Capaian & Tujuan
+                </button>
+                
+                <div class="pt-2 pb-1 px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Modul Belajar</div>
+                <button onclick="switchTab('materi')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition text-left" data-tab="materi">
+                    <i class="fa-solid fa-book-open w-5 text-gold-500"></i> Materi Pembelajaran
+                </button>
+                <button onclick="switchTab('video')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition text-left" data-tab="video">
+                    <i class="fa-solid fa-circle-play w-5 text-red-400"></i> Video Pembelajaran
+                </button>
+
+                <div class="pt-2 pb-1 px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Evaluasi & Praktik</div>
+                <button onclick="switchTab('aktivitas')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition text-left" data-tab="aktivitas">
+                    <i class="fa-solid fa-gamepad w-5 text-pink-400"></i> Aktivitas Interaktif
+                </button>
+                <button onclick="switchTab('lkpd')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition text-left" data-tab="lkpd">
+                    <i class="fa-solid fa-file-pen w-5 text-teal-400"></i> LKPD Digital (Tehoru)
+                </button>
+                <button onclick="switchTab('kuis')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition text-left" data-tab="kuis">
+                    <i class="fa-solid fa-clipboard-question w-5 text-amber-400"></i> Kuis Interaktif
+                </button>
+                <button onclick="switchTab('sertifikat')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition text-left" data-tab="sertifikat">
+                    <i class="fa-solid fa-certificate w-5 text-gold-500"></i> Sertifikat Kelulusan
+                </button>
+                <button onclick="switchTab('evaluasi')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition text-left" data-tab="evaluasi">
+                    <i class="fa-solid fa-square-poll-vertical w-5 text-indigo-400"></i> Evaluasi Akhir
+                </button>
+                <button onclick="switchTab('refleksi')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition text-left" data-tab="refleksi">
+                    <i class="fa-solid fa-brain w-5 text-cyan-400"></i> Refleksi (Deep Learning)
+                </button>
+
+                <div class="pt-2 pb-1 px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Informasi</div>
+                <button onclick="switchTab('profil')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition text-left" data-tab="profil">
+                    <i class="fa-solid fa-user-tie w-5 text-slate-400"></i> Profil Pengembang
+                </button>
+            </nav>
+            <div class="p-3 bg-slate-950 text-center text-xs text-slate-500 border-t border-slate-800">
+                &copy; 2026 SMAS Al-Hilaal Tehoru
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="flex-1 min-w-0 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700/60 p-4 sm:p-6 lg:p-8 flex flex-col justify-between">
+            
+            <div id="contentSections">
+                
+                <!-- ================= 1. BERANDA ================= -->
+                <section id="section-beranda" class="tab-content block space-y-6">
+                    <!-- Hero Banner -->
+                    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-navy-900 via-blue-900 to-slate-900 text-white p-6 sm:p-10 shadow-2xl border border-slate-700">
+                        <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-gold-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                        <div class="relative z-10 max-w-3xl space-y-4">
+                            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-500/20 text-gold-400 text-xs font-semibold border border-gold-500/30">
+                                <i class="fa-solid fa-sparkles"></i> Kurikulum Merdeka & Deep Learning
+                            </span>
+                            <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
+                                MEDIA PEMBELAJARAN INTERAKTIF EKONOMI KELAS XI
+                            </h2>
+                            <p class="text-lg text-gold-400 font-semibold">BADAN USAHA DALAM PEREKONOMIAN</p>
+                            <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                                Selamat datang di portal pembelajaran digital mandiri yang dirancang khusus untuk memfasilitasi pemahaman mendalam (*Mindful, Meaningful, & Joyful Learning*) terkait peran BUMN, BUMD, BUMS, dan Koperasi dalam pembangunan ekonomi Indonesia dan lokal Kecamatan Tehoru.
+                            </p>
+                            
+                            <!-- Greeting & Call to action -->
+                            <div class="pt-4 flex flex-wrap items-center gap-4">
+                                <button onclick="switchTab('materi')" class="px-6 py-3 rounded-xl bg-gold-500 hover:bg-gold-600 text-navy-900 font-bold shadow-lg shadow-gold-500/30 hover:scale-105 transition transform flex items-center gap-2">
+                                    <i class="fa-solid fa-rocket"></i> Mulai Belajar Sekarang
+                                </button>
+                                <button onclick="switchTab('petunjuk')" class="px-5 py-3 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-white font-medium border border-slate-600 transition flex items-center gap-2">
+                                    <i class="fa-solid fa-compass"></i> Petunjuk Penggunaan
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Teacher Greeting Card -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="md:col-span-2 bg-gradient-to-r from-blue-50 dark:from-slate-700/50 to-indigo-50 dark:to-slate-700/30 p-6 rounded-2xl border border-blue-100 dark:border-slate-700 flex items-start gap-4">
+                            <div class="w-16 h-16 rounded-2xl bg-navy-900 text-gold-500 flex items-center justify-center font-bold text-2xl shrink-0 shadow-md">
+                                <i class="fa-solid fa-chalkboard-user"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg text-navy-900 dark:text-white">Sambutan Guru Pengampu</h3>
+                                <p class="text-xs font-semibold text-blue-600 dark:text-blue-400 mb-2">Sumila Mahu, S.Pd. &bull; SMAS Al-Hilaal Tehoru</p>
+                                <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed italic">
+                                    "Peserta didik kelas XI yang berbahagia, jadikanlah media interaktif ini sebagai wadah eksplorasi kritis. Pelajarilah bagaimana badan usaha mengelola sumber daya laut, perkebunan pala, dan ekonomi lokal di sekitar kita demi kesejahteraan bersama."
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Progress Summary Widget -->
+                        <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-between">
+                            <h4 class="font-bold text-slate-700 dark:text-slate-200 text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-chart-pie text-gold-500"></i> Ringkasan Progres
+                            </h4>
+                            <div class="my-4 flex items-center justify-center gap-6">
+                                <div class="relative w-20 h-20 flex items-center justify-center">
+                                    <svg class="w-full h-full transform -rotate-90">
+                                        <circle cx="40" cy="40" r="32" stroke="currentColor" stroke-width="8" class="text-slate-200 dark:text-slate-700" fill="transparent"/>
+                                        <circle id="dashCircleProgress" cx="40" cy="40" r="32" stroke="currentColor" stroke-width="8" class="text-gold-500 transition-all duration-700" fill="transparent" stroke-dasharray="201" stroke-dashoffset="201"/>
+                                    </svg>
+                                    <span id="dashPercentText" class="absolute font-extrabold text-sm text-slate-800 dark:text-white">0%</span>
+                                </div>
+                                <div class="text-xs space-y-1">
+                                    <p class="text-slate-500 dark:text-slate-400">Materi Dibaca: <span id="dashReadCount" class="font-bold text-slate-800 dark:text-white">0/7</span></p>
+                                    <p class="text-slate-500 dark:text-slate-400">Skor Kuis: <span id="dashQuizScore" class="font-bold text-emerald-600 dark:text-emerald-400">0</span></p>
+                                    <p class="text-slate-500 dark:text-slate-400">Evaluasi: <span id="dashEvalScore" class="font-bold text-blue-600 dark:text-blue-400">-</span></p>
+                                </div>
+                            </div>
+                            <span class="text-xs text-center text-slate-400">Tingkatkan terus keaktifan belajar Anda!</span>
+                        </div>
+                    </div>
+
+                    <!-- Quick Navigation Cards Grid -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <div onclick="switchTab('materi')" class="cursor-pointer p-4 rounded-xl bg-slate-50 dark:bg-slate-700/40 border border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-400 transition hover:-translate-y-1 text-center group">
+                            <div class="w-12 h-12 mx-auto rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition">
+                                <i class="fa-solid fa-book-open"></i>
+                            </div>
+                            <h4 class="font-bold text-sm text-slate-800 dark:text-white">7 Bab Materi</h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">BUMN, BUMS, Koperasi dll</p>
+                        </div>
+
+                        <div onclick="switchTab('aktivitas')" class="cursor-pointer p-4 rounded-xl bg-slate-50 dark:bg-slate-700/40 border border-slate-200 dark:border-slate-700 hover:border-pink-500 dark:hover:border-pink-400 transition hover:-translate-y-1 text-center group">
+                            <div class="w-12 h-12 mx-auto rounded-full bg-pink-100 dark:bg-pink-900/50 text-pink-600 dark:text-pink-400 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition">
+                                <i class="fa-solid fa-gamepad"></i>
+                            </div>
+                            <h4 class="font-bold text-sm text-slate-800 dark:text-white">Game Interaktif</h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Mencocokkan & Tebak Gambar</p>
+                        </div>
+
+                        <div onclick="switchTab('lkpd')" class="cursor-pointer p-4 rounded-xl bg-slate-50 dark:bg-slate-700/40 border border-slate-200 dark:border-slate-700 hover:border-teal-500 dark:hover:border-teal-400 transition hover:-translate-y-1 text-center group">
+                            <div class="w-12 h-12 mx-auto rounded-full bg-teal-100 dark:bg-teal-900/50 text-teal-600 dark:text-teal-400 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition">
+                                <i class="fa-solid fa-file-pen"></i>
+                            </div>
+                            <h4 class="font-bold text-sm text-slate-800 dark:text-white">LKPD Tehoru</h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Studi kasus lokal perikanan</p>
+                        </div>
+
+                        <div onclick="switchTab('evaluasi')" class="cursor-pointer p-4 rounded-xl bg-slate-50 dark:bg-slate-700/40 border border-slate-200 dark:border-slate-700 hover:border-indigo-500 dark:hover:border-indigo-400 transition hover:-translate-y-1 text-center group">
+                            <div class="w-12 h-12 mx-auto rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition">
+                                <i class="fa-solid fa-award"></i>
+                            </div>
+                            <h4 class="font-bold text-sm text-slate-800 dark:text-white">Evaluasi Akhir</h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">20 PG + 5 Soal Uraian</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= 2. PETUNJUK PENGGUNAAN ================= -->
+                <section id="section-petunjuk" class="tab-content hidden space-y-6">
+                    <div class="border-b border-slate-200 dark:border-slate-700 pb-4">
+                        <h2 class="text-2xl font-bold text-navy-900 dark:text-white flex items-center gap-3">
+                            <i class="fa-solid fa-circle-info text-emerald-500"></i> Petunjuk Penggunaan Media
+                        </h2>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Panduan mudah mengeksplorasi seluruh fitur media pembelajaran interaktif ini.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-700 flex gap-4 items-start">
+                            <div class="w-10 h-10 rounded-full bg-emerald-500 text-white font-bold flex items-center justify-center shrink-0">1</div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 dark:text-white">Eksplorasi Materi 7 Bab</h4>
+                                <p class="text-xs text-slate-600 dark:text-slate-300 mt-1">Buka menu <b>Materi Pembelajaran</b>. Gunakan tab bab untuk berpindah halaman materi. Setiap selesai membaca satu bab, klik tombol <b>Tandai Selesai</b> untuk mengumpulkan progress Anda.</p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-700 flex gap-4 items-start">
+                            <div class="w-10 h-10 rounded-full bg-emerald-500 text-white font-bold flex items-center justify-center shrink-0">2</div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 dark:text-white">Tonton Video Pembelajaran</h4>
+                                <p class="text-xs text-slate-600 dark:text-slate-300 mt-1">Buka menu <b>Video Pembelajaran</b> untuk menyimak penjelasan multimedia animasi dan studi kasus BUMN/BUMD/Koperasi secara visual.</p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-700 flex gap-4 items-start">
+                            <div class="w-10 h-10 rounded-full bg-emerald-500 text-white font-bold flex items-center justify-center shrink-0">3</div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 dark:text-white">Mainkan Aktivitas Interaktif</h4>
+                                <p class="text-xs text-slate-600 dark:text-slate-300 mt-1">Uji pemahaman dasar melalui mini game mencocokkan istilah, mengelompokkan badan usaha, dan tebak gambar logo perusahaan.</p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-700 flex gap-4 items-start">
+                            <div class="w-10 h-10 rounded-full bg-emerald-500 text-white font-bold flex items-center justify-center shrink-0">4</div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 dark:text-white">Pengisian LKPD Digital Tehoru</h4>
+                                <p class="text-xs text-slate-600 dark:text-slate-300 mt-1">Isi lembar kerja siswa berbasis Problem-Based Learning yang mengaitkan materi badan usaha dengan konteks perikanan & perdagangan di Kecamatan Tehoru.</p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-700 flex gap-4 items-start">
+                            <div class="w-10 h-10 rounded-full bg-emerald-500 text-white font-bold flex items-center justify-center shrink-0">5</div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 dark:text-white">Pengerjaan Kuis & Evaluasi</h4>
+                                <p class="text-xs text-slate-600 dark:text-slate-300 mt-1">Kerjakan 15 soal Kuis untuk latihan awal dan Evaluasi Akhir (20 PG + 5 Uraian) untuk mendapatkan rekap skor akhir secara real-time.</p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-700 flex gap-4 items-start">
+                            <div class="w-10 h-10 rounded-full bg-emerald-500 text-white font-bold flex items-center justify-center shrink-0">6</div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 dark:text-white">Refleksi Belajar Mandiri</h4>
+                                <p class="text-xs text-slate-600 dark:text-slate-300 mt-1">Tuliskan pengalaman belajar pada jurnal refleksi 3-2-1 untuk memperkuat konsep pembelajaran yang bermakna (*Meaningful Learning*).</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= 3. CAPAIAN & TUJUAN PEMBELAJARAN ================= -->
+                <section id="section-capaian" class="tab-content hidden space-y-6">
+                    <div class="border-b border-slate-200 dark:border-slate-700 pb-4">
+                        <h2 class="text-2xl font-bold text-navy-900 dark:text-white flex items-center gap-3">
+                            <i class="fa-solid fa-bullseye text-purple-500"></i> Capaian & Tujuan Pembelajaran
+                        </h2>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Landasan Kurikulum Merdeka Fase F Mata Pelajaran Ekonomi XI SMA.</p>
+                    </div>
+
+                    <!-- CP Card -->
+                    <div class="bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-900/60 rounded-2xl p-6">
+                        <h3 class="font-bold text-purple-900 dark:text-purple-300 text-base flex items-center gap-2">
+                            <i class="fa-solid fa-award"></i> Capaian Pembelajaran (CP) Fase F
+                        </h3>
+                        <p class="text-sm text-slate-700 dark:text-slate-300 mt-2 leading-relaxed">
+                            "Pada akhir Fase F, peserta didik mampu memahami dan mengidentifikasi berbagai badan usaha (BUMN, BUMD, BUMS, Koperasi), menganalisis peran badan usaha dalam perekonomian nasional dan daerah, serta mampu menyusun gagasan pengembangan badan usaha berbasis potensi lokal."
+                        </p>
+                    </div>
+
+                    <!-- TP & Indikator -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-3">
+                            <h4 class="font-bold text-slate-800 dark:text-white text-sm flex items-center gap-2 border-b pb-2 dark:border-slate-700">
+                                <i class="fa-solid fa-list-check text-blue-500"></i> Tujuan Pembelajaran (TP)
+                            </h4>
+                            <ul class="text-xs text-slate-600 dark:text-slate-300 space-y-2 list-disc list-inside">
+                                <li>Membedakan konsep konsep Badan Usaha dan Perusahaan.</li>
+                                <li>Menganalisis karakteristik & perbedaan BUMN, BUMD, BUMS, dan Koperasi.</li>
+                                <li>Menghitung pembagian Sisa Hasil Usaha (SHU) Koperasi secara cermat.</li>
+                                <li>Evaluasi peran badan usaha terhadap penyerapan tenaga kerja di Kecamatan Tehoru.</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-3">
+                            <h4 class="font-bold text-slate-800 dark:text-white text-sm flex items-center gap-2 border-b pb-2 dark:border-slate-700">
+                                <i class="fa-solid fa-seedling text-emerald-500"></i> Profil Pelajar Pancasila
+                            </h4>
+                            <div class="flex flex-wrap gap-2 text-xs">
+                                <span class="px-2.5 py-1 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 text-emerald-800 dark:text-emerald-300 font-semibold">Bernalar Kritis</span>
+                                <span class="px-2.5 py-1 rounded-lg bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 font-semibold">Gotong Royong</span>
+                                <span class="px-2.5 py-1 rounded-lg bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-300 font-semibold">Kreatif</span>
+                                <span class="px-2.5 py-1 rounded-lg bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-300 font-semibold">Mandiri</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pemahaman Bermakna & Pertanyaan Pemantik -->
+                    <div class="bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/30 rounded-2xl p-6 space-y-4">
+                        <div>
+                            <h4 class="font-bold text-amber-800 dark:text-amber-400 text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-lightbulb"></i> Pemahaman Bermakna (Deep Learning)
+                            </h4>
+                            <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 mt-1">
+                                Badan usaha bukan sekadar entitas pencari keuntungan, melainkan pilar utama penggerak kesejahteraan masyarakat yang saling bersinergi (Negara, Swasta, dan Koperasi) dalam memanfaatkan potensi sumber daya alam daerah.
+                            </p>
+                        </div>
+                        <hr class="border-amber-500/20">
+                        <div>
+                            <h4 class="font-bold text-amber-800 dark:text-amber-400 text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-comments"></i> Pertanyaan Pemantik Kontekstual Tehoru
+                            </h4>
+                            <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 italic mt-1">
+                                "Mengapa nelayan dan petani pala di Tehoru lebih terlindungi secara ekonomi jika bergabung dalam lembaga Koperasi dibanding menjual hasil panennya secara perorangan?"
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= 4. MATERI PEMBELAJARAN (7 BAB) ================= -->
+                <section id="section-materi" class="tab-content hidden space-y-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-200 dark:border-slate-700 pb-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-navy-900 dark:text-white flex items-center gap-3">
+                                <i class="fa-solid fa-book-open text-gold-500"></i> Modul Pembelajaran Interaktif
+                            </h2>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Materi lengkap Badan Usaha dalam Perekonomian (7 Bab).</p>
+                        </div>
+                        <button onclick="window.print()" class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-xs font-semibold text-slate-700 dark:text-slate-200 transition flex items-center gap-2 no-print">
+                            <i class="fa-solid fa-print"></i> Cetak / Export PDF
+                        </button>
+                    </div>
+
+                    <!-- Chapter Navigation Tabs -->
+                    <div class="flex items-center gap-2 overflow-x-auto pb-2 custom-scrollbar no-print">
+                        <button onclick="switchBab(1)" id="bab-tab-1" class="bab-btn px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap bg-blue-600 text-white">Bab 1: Pengertian</button>
+                        <button onclick="switchBab(2)" id="bab-tab-2" class="bab-btn px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">Bab 2: Jenis-Jenis</button>
+                        <button onclick="switchBab(3)" id="bab-tab-3" class="bab-btn px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">Bab 3: BUMN</button>
+                        <button onclick="switchBab(4)" id="bab-tab-4" class="bab-btn px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">Bab 4: BUMD</button>
+                        <button onclick="switchBab(5)" id="bab-tab-5" class="bab-btn px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">Bab 5: BUMS</button>
+                        <button onclick="switchBab(6)" id="bab-tab-6" class="bab-btn px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">Bab 6: Koperasi</button>
+                        <button onclick="switchBab(7)" id="bab-tab-7" class="bab-btn px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">Bab 7: Peran Ekonomi</button>
+                    </div>
+
+                    <!-- BAB CONTENT CONTAINERS -->
+                    <div id="bab-content-container" class="space-y-6">
+
+                        <!-- BAB 1 -->
+                        <div id="bab-1" class="bab-content block space-y-4">
+                            <div class="bg-blue-50 dark:bg-slate-700/50 p-4 rounded-xl border border-blue-200 dark:border-slate-600">
+                                <h3 class="font-bold text-lg text-blue-900 dark:text-blue-300">BAB 1: Concept & Difference (Badan Usaha vs Perusahaan)</h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Pemahaman mendasar batas yuridis dan teknis operasional produksi.</p>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm leading-relaxed">
+                                <div class="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-2">
+                                    <h4 class="font-bold text-navy-900 dark:text-white flex items-center gap-2">
+                                        <i class="fa-solid fa-scale-balanced text-blue-500"></i> Badan Usaha
+                                    </h4>
+                                    <p class="text-xs text-slate-600 dark:text-slate-300">
+                                        Kesatuan yuridis (hukum) dan ekonomi yang menggunakan modal dan tenaga kerja untuk mencari keuntungan atau memberikan pelayanan kepada masyarakat.
+                                    </p>
+                                    <span class="text-xs font-semibold text-blue-600 dark:text-blue-400">Fokus: Keuangan, Hukum, Profitabilitas.</span>
+                                </div>
+
+                                <div class="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-2">
+                                    <h4 class="font-bold text-navy-900 dark:text-white flex items-center gap-2">
+                                        <i class="fa-solid fa-industry text-amber-500"></i> Perusahaan
+                                    </h4>
+                                    <p class="text-xs text-slate-600 dark:text-slate-300">
+                                        Unit teknis tempat berlangsungnya kegiatan proses produksi barang atau jasa. Perusahaan merupakan alat dari badan usaha untuk mencapai tujuannya.
+                                    </p>
+                                    <span class="text-xs font-semibold text-amber-600 dark:text-amber-400">Fokus: Proses Produksi, Pabrik, Alat.</span>
+                                </div>
+                            </div>
+
+                            <!-- Comparison Table -->
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-xs text-left border-collapse bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-sm">
+                                    <thead class="bg-navy-900 text-white">
+                                        <tr>
+                                            <th class="p-3">Aspek Pembeda</th>
+                                            <th class="p-3">Badan Usaha</th>
+                                            <th class="p-3">Perusahaan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-200 dark:divide-slate-700 text-slate-700 dark:text-slate-300">
+                                        <tr>
+                                            <td class="p-3 font-semibold">Tujuan Utama</td>
+                                            <td class="p-3">Mencari laba atau memberi pelayanan publik</td>
+                                            <td class="p-3">Menghasilkan barang/jasa secara fisik</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-3 font-semibold">Aspek Legalitas</td>
+                                            <td class="p-3">Berbadan hukum / memiliki akta pendirian</td>
+                                            <td class="p-3">Unit teknis operasional pabrik/toko</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-3 font-semibold">Contoh Konkret</td>
+                                            <td class="p-3">PT Pertamina (Persero)</td>
+                                            <td class="p-3">Kilang Minyak Pertamina Balongan</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- BAB 2 -->
+                        <div id="bab-2" class="bab-content hidden space-y-4">
+                            <div class="bg-blue-50 dark:bg-slate-700/50 p-4 rounded-xl border border-blue-200 dark:border-slate-600">
+                                <h3 class="font-bold text-lg text-blue-900 dark:text-blue-300">BAB 2: Pengelompokan Jenis Badan Usaha</h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Klasifikasi berdasarkan lapangan usaha, kepemilikan modal, dan badan hukum.</p>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                                <div class="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-2">
+                                    <div class="text-blue-500 font-bold text-sm">1. Berdasarkan Lapangan Usaha</div>
+                                    <ul class="space-y-1 list-disc list-inside text-slate-600 dark:text-slate-300">
+                                        <li><b>Ekstraktif:</b> Mengambil dari alam (misal: Tangkap ikan di laut Tehoru).</li>
+                                        <li><b>Agraris:</b> Mengolah tanah (pala, cengkeh, kelapa).</li>
+                                        <li><b>Industri:</b> Pengolahan bahan mentah.</li>
+                                        <li><b>Perdagangan:</b> Jual beli barang.</li>
+                                        <li><b>Jasa:</b> Layanan keuangan/transportasi.</li>
+                                    </ul>
+                                </div>
+
+                                <div class="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-2">
+                                    <div class="text-emerald-500 font-bold text-sm">2. Berdasarkan Kepemilikan</div>
+                                    <ul class="space-y-1 list-disc list-inside text-slate-600 dark:text-slate-300">
+                                        <li><b>BUMN:</b> Seluruh/sebagian modal milik Negara.</li>
+                                        <li><b>BUMD:</b> Modal milik Pemerintah Daerah.</li>
+                                        <li><b>BUMS:</b> Modal milik Swasta (Perorangan/Kelompok).</li>
+                                        <li><b>Campuran:</b> Kombinasi Pemerintah & Swasta.</li>
+                                    </ul>
+                                </div>
+
+                                <div class="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-2">
+                                    <div class="text-purple-500 font-bold text-sm">3. Berdasarkan Bentuk Hukum</div>
+                                    <ul class="space-y-1 list-disc list-inside text-slate-600 dark:text-slate-300">
+                                        <li><b>Perusahaan Perseorangan</b></li>
+                                        <li><b>Firma (Fa) & CV</b></li>
+                                        <li><b>Perseroan Terbatas (PT)</b></li>
+                                        <li><b>Koperasi</b></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- BAB 3 -->
+                        <div id="bab-3" class="bab-content hidden space-y-4">
+                            <div class="bg-blue-50 dark:bg-slate-700/50 p-4 rounded-xl border border-blue-200 dark:border-slate-600">
+                                <h3 class="font-bold text-lg text-blue-900 dark:text-blue-300">BAB 3: Badan Usaha Milik Negara (BUMN)</h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Pengabdi masyarakat & Agen Pembangunan Nasional (UU No. 19 Tahun 2003).</p>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                                <div class="p-4 bg-blue-900 text-white rounded-xl space-y-2">
+                                    <h4 class="font-bold text-gold-400 text-sm">Persero (Perseroan Terbatas State)</h4>
+                                    <p class="text-slate-200">Tujuan utama mencari keuntungan (profit oriented) tanpa mengabaikan pelayanan umum.</p>
+                                    <p><b>Ciri:</b> Modal terbagi atas saham, min 51% saham milik NKRI.</p>
+                                    <p><b>Contoh:</b> PT PLN, PT Telkom Indonesia, PT Bank BRI, PT Garuda Indonesia.</p>
+                                </div>
+
+                                <div class="p-4 bg-slate-800 text-white rounded-xl space-y-2 border border-slate-700">
+                                    <h4 class="font-bold text-blue-400 text-sm">Perum (Perusahaan Umum)</h4>
+                                    <p class="text-slate-300">Tujuan utama menyelenggarakan kemanfaatan umum berupa penyediaan barang/jasa bermutu.</p>
+                                    <p><b>Ciri:</b> Seluruh modal dimiliki negara dan tidak terbagi atas saham.</p>
+                                    <p><b>Contoh:</b> Perum BULOG, Perum Damri, Perum Peruri.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- BAB 4 -->
+                        <div id="bab-4" class="bab-content hidden space-y-4">
+                            <div class="bg-blue-50 dark:bg-slate-700/50 p-4 rounded-xl border border-blue-200 dark:border-slate-600">
+                                <h3 class="font-bold text-lg text-blue-900 dark:text-blue-300">BAB 4: Badan Usaha Milik Daerah (BUMD)</h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Penggerak ekonomi daerah & Sumber Pendapatan Asli Daerah (PAD).</p>
+                            </div>
+
+                            <div class="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-3 text-xs leading-relaxed">
+                                <h4 class="font-bold text-sm text-navy-900 dark:text-white">Peran Strategis BUMD di Maluku & Daerah</h4>
+                                <ul class="list-disc list-inside space-y-1 text-slate-600 dark:text-slate-300">
+                                    <li>Memberikan kontribusi pada Pendapatan Asli Daerah (PAD).</li>
+                                    <li>Mendorong pembangunan infrastruktur dan fasilitas transportasi daerah.</li>
+                                    <li>Menyediakan pelayanan air bersih (PDAM / Perumda Air Minum).</li>
+                                </ul>
+                                <div class="p-3 bg-amber-50 dark:bg-amber-950/30 rounded-lg text-amber-800 dark:text-amber-300">
+                                    <b>Contoh BUMD:</b> Bank Maluku Malut (BPD Maluku), Perumda Air Minum Tirta Yapono.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- BAB 5 -->
+                        <div id="bab-5" class="bab-content hidden space-y-4">
+                            <div class="bg-blue-50 dark:bg-slate-700/50 p-4 rounded-xl border border-blue-200 dark:border-slate-600">
+                                <h3 class="font-bold text-lg text-blue-900 dark:text-blue-300">BAB 5: Badan Usaha Milik Swasta (BUMS)</h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Kekuatan ekonomi berbasis swasta domestik dan asing.</p>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                                <div class="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-1">
+                                    <h4 class="font-bold text-blue-600 dark:text-blue-400">1. Perusahaan Perseorangan</h4>
+                                    <p class="text-slate-600 dark:text-slate-300">Dimiliki satu orang, tanggung jawab tidak terbatas pada harta pribadi. Tangguh & fleksibel (Toko sembako Tehoru).</p>
+                                </div>
+                                <div class="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-1">
+                                    <h4 class="font-bold text-blue-600 dark:text-blue-400">2. Firma (Fa)</h4>
+                                    <p class="text-slate-600 dark:text-slate-300">Didirikan 2 orang atau lebih dengan menggunakan nama bersama. Tanggung jawab sekunder penuh.</p>
+                                </div>
+                                <div class="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-1">
+                                    <h4 class="font-bold text-blue-600 dark:text-blue-400">3. Persekutuan Komanditer (CV)</h4>
+                                    <p class="text-slate-600 dark:text-slate-300">Memiliki Sekutu Aktif (pengelola) dan Sekutu Pasif (hanya menanam modal).</p>
+                                </div>
+                                <div class="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-1">
+                                    <h4 class="font-bold text-blue-600 dark:text-blue-400">4. Perseroan Terbatas (PT)</h4>
+                                    <p class="text-slate-600 dark:text-slate-300">Badan hukum pemisah harta pribadi & modal terbagi atas saham. Tanggung jawab terbatas nominal saham.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- BAB 6 -->
+                        <div id="bab-6" class="bab-content hidden space-y-4">
+                            <div class="bg-blue-50 dark:bg-slate-700/50 p-4 rounded-xl border border-blue-200 dark:border-slate-600">
+                                <h3 class="font-bold text-lg text-blue-900 dark:text-blue-300">BAB 6: Koperasi & Simulasi Kalkulator SHU</h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Sokoguru Perekonomian Indonesia berdasarkan asas kekeluargaan (UU No. 25/1992).</p>
+                            </div>
+
+                            <!-- SHU Calculator Interactive Widget -->
+                            <div class="bg-gradient-to-br from-emerald-900 to-slate-900 text-white p-5 rounded-2xl border border-emerald-700 shadow-lg space-y-4">
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-calculator text-gold-400 text-xl"></i>
+                                    <h4 class="font-bold text-sm text-gold-400">Kalkulator Interaktif Pembagian SHU Koperasi</h4>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                                    <div>
+                                        <label class="block text-slate-300 mb-1">Total SHU Koperasi (Rp)</label>
+                                        <input type="number" id="shuTotal" value="10000000" class="w-full p-2 rounded bg-slate-800 text-white border border-slate-700">
+                                    </div>
+                                    <div>
+                                        <label class="block text-slate-300 mb-1">Simpanan Anggota (Rp)</label>
+                                        <input type="number" id="shuSimpananUser" value="2000000" class="w-full p-2 rounded bg-slate-800 text-white border border-slate-700">
+                                    </div>
+                                    <div>
+                                        <label class="block text-slate-300 mb-1">Total Simpanan Koperasi (Rp)</label>
+                                        <input type="number" id="shuSimpananTotal" value="20000000" class="w-full p-2 rounded bg-slate-800 text-white border border-slate-700">
+                                    </div>
+                                </div>
+                                <button onclick="calculateSHU()" class="w-full py-2 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold text-xs rounded-xl transition">
+                                    Hitung Estimasi SHU Jasa Modal
+                                </button>
+                                <div id="shuResult" class="p-3 bg-slate-800 rounded-xl text-center text-xs font-semibold text-gold-400">
+                                    Klik tombol di atas untuk melihat estimasi bagian SHU Anda.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- BAB 7 -->
+                        <div id="bab-7" class="bab-content hidden space-y-4">
+                            <div class="bg-blue-50 dark:bg-slate-700/50 p-4 rounded-xl border border-blue-200 dark:border-slate-600">
+                                <h3 class="font-bold text-lg text-blue-900 dark:text-blue-300">BAB 7: Peran Badan Usaha Dalam Perekonomian</h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Kontribusi nasional dan pemerataan pertumbuhan ekonomi masyarakat Tehoru.</p>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                                <div class="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-2">
+                                    <div class="flex items-center gap-2 text-blue-600 font-bold">
+                                        <i class="fa-solid fa-users text-lg"></i>
+                                        <span>Penyerapan Tenaga Kerja</span>
+                                    </div>
+                                    <p class="text-slate-600 dark:text-slate-300">Membuka lapangan kerja bagi masyarakat usia produktif sehingga mengurangi pengangguran.</p>
+                                </div>
+                                <div class="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-2">
+                                    <div class="flex items-center gap-2 text-emerald-600 font-bold">
+                                        <i class="fa-solid fa-hand-holding-dollar text-lg"></i>
+                                        <span>Sumber Pendapatan Negara/Daerah</span>
+                                    </div>
+                                    <p class="text-slate-600 dark:text-slate-300">Penyetoran Pajak (BUMS/BUMN) dan Deviden dividen bagian laba daerah (BUMD).</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Bottom Navigation & Mark Complete -->
+                    <div class="pt-6 border-t border-slate-200 dark:border-slate-700 flex flex-wrap justify-between items-center gap-4 no-print">
+                        <button onclick="prevBab()" id="prevBabBtn" class="px-4 py-2 rounded-xl bg-slate-200 dark:bg-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-300 transition">
+                            <i class="fa-solid fa-arrow-left"></i> Bab Sebelumnya
+                        </button>
+                        <button onclick="markBabRead()" id="markReadBtn" class="px-5 py-2 rounded-xl bg-gold-500 hover:bg-gold-600 text-navy-900 text-xs font-bold shadow-md transition flex items-center gap-2">
+                            <i class="fa-solid fa-check-circle"></i> Tandai Bab Ini Selesai
+                        </button>
+                        <button onclick="nextBab()" id="nextBabBtn" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold transition">
+                            Bab Selanjutnya <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- ================= 5. VIDEO PEMBELAJARAN ================= -->
+                <section id="section-video" class="tab-content hidden space-y-6">
+                    <div class="border-b border-slate-200 dark:border-slate-700 pb-4">
+                        <h2 class="text-2xl font-bold text-navy-900 dark:text-white flex items-center gap-3">
+                            <i class="fa-solid fa-circle-play text-red-500"></i> Video Pembelajaran Interaktif
+                        </h2>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Media audio-visual pendukung pemahaman materi badan usaha.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Video Card 1 -->
+                        <div class="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-md">
+                            <div class="aspect-video w-full bg-slate-900">
+                                <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/videoseries?list=PL36bf-1CInPg0X4NthYQ3U7_E8_N7Q_x_" title="Video Badan Usaha" allowfullscreen></iframe>
+                            </div>
+                            <div class="p-4 space-y-1">
+                                <h4 class="font-bold text-slate-800 dark:text-white text-sm">Pengenalan BUMN, BUMD, dan BUMS</h4>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Video penjelasan struktur modal dan fungsi tata kelola badan usaha.</p>
+                            </div>
+                        </div>
+
+                        <!-- Video Card 2 -->
+                        <div class="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-md">
+                            <div class="aspect-video w-full bg-slate-900">
+                                <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/videoseries?list=PL36bf-1CInPg0X4NthYQ3U7_E8_N7Q_x_" title="Video Koperasi Indonesia" allowfullscreen></iframe>
+                            </div>
+                            <div class="p-4 space-y-1">
+                                <h4 class="font-bold text-slate-800 dark:text-white text-sm">Peran Koperasi & Ekonomi Kerakyatan</h4>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Simulasi bagaimana koperasi menjadi wadah usaha bersama nelayan & petani.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= 6. AKTIVITAS INTERAKTIF ================= -->
+                <section id="section-aktivitas" class="tab-content hidden space-y-6">
+                    <div class="border-b border-slate-200 dark:border-slate-700 pb-4">
+                        <h2 class="text-2xl font-bold text-navy-900 dark:text-white flex items-center gap-3">
+                            <i class="fa-solid fa-gamepad text-pink-500"></i> Aktivitas & Mini Game Interaktif
+                        </h2>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Bermain sambil menguji pemahaman konsep secara menyenangkan (*Joyful Learning*).</p>
+                    </div>
+
+                    <!-- Activity 1: Matching Game -->
+                    <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                        <h3 class="font-bold text-slate-800 dark:text-white text-base flex items-center gap-2">
+                            <i class="fa-solid fa-puzzle-piece text-pink-500"></i> Games 1: Mencocokkan Istilah
+                        </h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Pilih Pasangan antara Istilah dan Penjelasan yang Tepat!</p>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                            <div class="p-3 bg-slate-50 dark:bg-slate-700/50 rounded-xl space-y-2">
+                                <p class="font-semibold text-slate-700 dark:text-slate-200">1. Sekutu Pasif (CV)</p>
+                                <select id="match1" class="w-full p-2 rounded bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-xs">
+                                    <option value="">-- Pilih Jawaban --</option>
+                                    <option value="salah">Mengelola operasional harian perusahaan</option>
+                                    <option value="benar">Hanya menyertakan modal tanpa ikut mengelola</option>
+                                </select>
+                            </div>
+
+                            <div class="p-3 bg-slate-50 dark:bg-slate-700/50 rounded-xl space-y-2">
+                                <p class="font-semibold text-slate-700 dark:text-slate-200">2. Landasan Koperasi Indonesia</p>
+                                <select id="match2" class="w-full p-2 rounded bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-xs">
+                                    <option value="">-- Pilih Jawaban --</option>
+                                    <option value="benar">Pancasila & UUD 1945 serta Kekeluargaan</option>
+                                    <option value="salah">Keuntungan Saham Individualis</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button onclick="checkMatchingGame()" class="px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white font-bold text-xs rounded-xl transition">
+                            Periksa Jawaban Games 1
+                        </button>
+                        <div id="matchResult" class="hidden p-3 rounded-xl text-xs font-semibold"></div>
+                    </div>
+
+                    <!-- Activity 2: True / False Quick Quiz -->
+                    <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                        <h3 class="font-bold text-slate-800 dark:text-white text-base flex items-center gap-2">
+                            <i class="fa-solid fa-check-double text-emerald-500"></i> Games 2: Benar atau Salah?
+                        </h3>
+                        <p class="text-xs text-slate-500">"Seluruh keuntungan BUMN dialokasikan penuh untuk pemegang saham swasta."</p>
+                        <div class="flex gap-3">
+                            <button onclick="answerTF(false)" class="px-5 py-2 rounded-xl bg-red-500 hover:bg-red-600 text-white font-bold text-xs transition">SALAH</button>
+                            <button onclick="answerTF(true)" class="px-5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs transition">BENAR</button>
+                        </div>
+                        <div id="tfResult" class="hidden p-3 rounded-xl text-xs font-semibold"></div>
+                    </div>
+                </section>
+
+                <!-- ================= 7. LKPD DIGITAL (TEHORU) ================= -->
+                <section id="section-lkpd" class="tab-content hidden space-y-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-200 dark:border-slate-700 pb-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-navy-900 dark:text-white flex items-center gap-3">
+                                <i class="fa-solid fa-file-pen text-teal-500"></i> LKPD Digital (Konteks Tehoru)
+                            </h2>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Lembar Kerja Peserta Didik Berbasis Problem-Based Learning & Potensi Daerah.</p>
+                        </div>
+                        <button onclick="window.print()" class="px-4 py-2 rounded-xl bg-teal-600 text-white text-xs font-semibold transition no-print">
+                            <i class="fa-solid fa-download"></i> Cetak / Simpan LKPD
+                        </button>
+                    </div>
+
+                    <form id="lkpdForm" onsubmit="submitLKPD(event)" class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-md space-y-6">
+                        <!-- Student Profile -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Nama Lengkap Siswa</label>
+                                <input type="text" id="lkpdNama" required class="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Kelas / Kelompok</label>
+                                <input type="text" id="lkpdKelas" value="XI - SMAS Al-Hilaal Tehoru" required class="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Tanggal</label>
+                                <input type="date" id="lkpdTanggal" required class="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-xs">
+                            </div>
+                        </div>
+
+                        <!-- Case Study Tehoru -->
+                        <div class="p-4 bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-900/50 rounded-xl space-y-2 text-xs">
+                            <h4 class="font-bold text-teal-900 dark:text-teal-300 text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-fish"></i> Studi Kasus: Potensi Perikanan & Perkebunan Pala Kecamatan Tehoru
+                            </h4>
+                            <p class="text-slate-700 dark:text-slate-300 leading-relaxed">
+                                Kecamatan Tehoru memiliki komoditas perikanan laut dan hasil bumi berupa Pala & Cengkeh yang melimpah. Namun, tengkulak sering menentukan harga secara sepihak yang merugikan nelayan dan petani lokal. Jika kelompok masyarakat Tehoru ingin mendirikan Badan Usaha untuk memperkuat posisi tawar mereka:
+                            </p>
+                        </div>
+
+                        <!-- Questions -->
+                        <div class="space-y-4 text-xs">
+                            <div>
+                                <label class="block font-bold text-slate-800 dark:text-slate-200 mb-2">1. Menurut pendapat kelompokmu, bentuk badan usaha apa (Koperasi, CV, atau PT) yang paling cocok didirikan oleh para nelayan/petani di Tehoru? Berikan alasannya!</label>
+                                <textarea id="lkpdSoal1" rows="3" required placeholder="Tuliskan analisis jawaban di sini..." class="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-xs focus:ring-2 focus:ring-teal-500"></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block font-bold text-slate-800 dark:text-slate-200 mb-2">2. Bagaimana peran Badan Usaha tersebut dalam meningkatkan pendapatan masyarakat Tehoru secara berkelanjutan?</label>
+                                <textarea id="lkpdSoal2" rows="3" required placeholder="Tuliskan gagasan kamu..." class="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-xs focus:ring-2 focus:ring-teal-500"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end gap-3 no-print">
+                            <button type="submit" class="px-6 py-2.5 bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs rounded-xl shadow-md transition">
+                                Simpan & Periksa LKPD
+                            </button>
+                        </div>
+                    </form>
+
+                    <div id="lkpdSuccessMsg" class="hidden p-4 bg-emerald-100 dark:bg-emerald-900/50 border border-emerald-300 text-emerald-800 dark:text-emerald-300 rounded-xl text-xs font-semibold">
+                        <i class="fa-solid fa-check-circle"></i> LKPD Berhasil disimpan secara lokal! Anda dapat mencetak atau mengekspornya ke PDF.
+                    </div>
+                </section>
+
+                <!-- ================= 8. KUIS INTERAKTIF (15 SOAL) ================= -->
+                <section id="section-kuis" class="tab-content hidden space-y-6">
+                    <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-navy-900 dark:text-white flex items-center gap-3">
+                                <i class="fa-solid fa-clipboard-question text-amber-500"></i> Kuis Interaktif (15 Soal)
+                            </h2>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Latihan pemahaman dengan instant feedback dan pembahasan lengkap.</p>
+                        </div>
+                        <span id="quizBadgeScore" class="px-4 py-1.5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 font-bold text-xs">Skor: -</span>
+                    </div>
+
+                    <!-- Quiz Container -->
+                    <div id="quizContainer" class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-md space-y-6">
+                        <!-- Questions dynamically loaded via JS -->
+                    </div>
+
+                    <div class="flex justify-between items-center no-print">
+                        <button onclick="resetQuiz()" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 rounded-xl hover:bg-slate-300 transition">
+                            <i class="fa-solid fa-rotate-right"></i> Ulangi Kuis
+                        </button>
+                        <div class="flex gap-2">
+                            <button onclick="switchTab('sertifikat')" class="px-4 py-2.5 bg-gold-500 hover:bg-gold-600 text-navy-900 font-bold text-xs rounded-xl shadow-md transition flex items-center gap-2">
+                                <i class="fa-solid fa-certificate"></i> Lihat Sertifikat Saya
+                            </button>
+                            <button onclick="submitQuiz()" class="px-6 py-2.5 bg-amber-500 hover:bg-amber-600 text-navy-900 font-bold text-xs rounded-xl shadow-md transition">
+                                Selesai & Hitung Skor
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= 8.5 SERTIFIKAT KELULUSAN ================= -->
+                <section id="section-sertifikat" class="tab-content hidden space-y-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-200 dark:border-slate-700 pb-4 no-print">
+                        <div>
+                            <h2 class="text-2xl font-bold text-navy-900 dark:text-white flex items-center gap-3">
+                                <i class="fa-solid fa-certificate text-gold-500"></i> Sertifikat Pembelajaran Digital
+                            </h2>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Bukti pencapaian dan kompetensi materi Badan Usaha dalam Perekonomian.</p>
+                        </div>
+                        <button onclick="window.print()" class="px-5 py-2.5 rounded-xl bg-gold-500 hover:bg-gold-600 text-navy-900 text-xs font-bold shadow-md transition flex items-center gap-2">
+                            <i class="fa-solid fa-print"></i> Cetak / Unduh Sertifikat (PDF)
+                        </button>
+                    </div>
+
+                    <!-- Input Data Siswa Untuk Sertifikat -->
+                    <div class="bg-slate-50 dark:bg-slate-700/40 p-4 rounded-xl border border-slate-200 dark:border-slate-700 space-y-3 no-print">
+                        <h4 class="font-bold text-xs text-slate-700 dark:text-slate-200 uppercase tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-user-pen text-blue-500"></i> Penyesuaian Data Identitas Sertifikat
+                        </h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                            <div>
+                                <label class="block text-slate-600 dark:text-slate-400 mb-1">Nama Lengkap Peserta Didik:</label>
+                                <input type="text" id="certInputName" oninput="updateCertPreview()" placeholder="Masukkan Nama Lengkap..." class="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white">
+                            </div>
+                            <div>
+                                <label class="block text-slate-600 dark:text-slate-400 mb-1">Kelas / NISN:</label>
+                                <input type="text" id="certInputClass" oninput="updateCertPreview()" value="XI-1 / SMAS Al-Hilaal Tehoru" class="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DESAIN SERTIFIKAT KELULUSAN (PRINT-FRIENDLY CONTAINER) -->
+                    <div id="certificateContainer" class="relative bg-amber-50/40 dark:bg-slate-900 border-8 border-double border-gold-500 rounded-2xl p-6 sm:p-10 shadow-2xl text-slate-800 dark:text-slate-100 overflow-hidden font-serif">
+                        <!-- Ornamen Sudut -->
+                        <div class="absolute top-2 left-2 w-12 h-12 border-t-4 border-l-4 border-gold-500 pointer-events-none"></div>
+                        <div class="absolute top-2 right-2 w-12 h-12 border-t-4 border-r-4 border-gold-500 pointer-events-none"></div>
+                        <div class="absolute bottom-2 left-2 w-12 h-12 border-b-4 border-l-4 border-gold-500 pointer-events-none"></div>
+                        <div class="absolute bottom-2 right-2 w-12 h-12 border-b-4 border-r-4 border-gold-500 pointer-events-none"></div>
+
+                        <!-- Header Sekolah & Sertifikat -->
+                        <div class="text-center space-y-2 border-b-2 border-slate-300 dark:border-slate-700 pb-4">
+                            <div class="flex justify-center items-center gap-3">
+                                <div class="w-12 h-12 rounded-full bg-navy-900 text-gold-500 flex items-center justify-center font-bold text-xl font-sans border-2 border-gold-500">
+                                    AH
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold uppercase tracking-widest text-navy-900 dark:text-gold-400 font-sans">SMAS AL-HILAAL TEHORU</h3>
+                                    <p class="text-xs font-sans text-slate-600 dark:text-slate-400">Kecamatan Tehoru, Kabupaten Maluku Tengah, Provinsi Maluku</p>
+                                </div>
+                            </div>
+                            <div class="pt-2">
+                                <h2 class="text-2xl sm:text-3xl font-extrabold text-navy-900 dark:text-white tracking-wider uppercase font-sans">SERTIFIKAT KELULUSAN</h2>
+                                <p class="text-xs font-sans text-slate-500 dark:text-slate-400">Nomor: <span id="certNumberDisplay" class="font-mono">CERT/EKON-XI/2026/001</span></p>
+                            </div>
+                        </div>
+
+                        <!-- Isi Sertifikat -->
+                        <div class="py-6 text-center space-y-4">
+                            <p class="text-xs sm:text-sm italic font-sans text-slate-600 dark:text-slate-300">Diberikan kepada peserta didik:</p>
+                            <h3 id="certNameDisplay" class="text-2xl sm:text-3xl font-bold text-navy-900 dark:text-gold-400 font-sans tracking-wide underline decoration-gold-500 decoration-2">
+                                PESERTA DIDIK KELAS XI
+                            </h3>
+                            <p id="certClassDisplay" class="text-xs font-sans font-semibold text-slate-600 dark:text-slate-400">NISN/Kelas: XI-1 / SMAS Al-Hilaal Tehoru</p>
+
+                            <p class="text-xs sm:text-sm font-sans leading-relaxed max-w-2xl mx-auto text-slate-700 dark:text-slate-300">
+                                Dinyatakan telah menyelesaikan seluruh rangkaian Media Pembelajaran Interaktif berbasis Kurikulum Merdeka & Pembelajaran Mendalam (*Deep Learning*) pada mata pelajaran <b>Ekonomi XI</b> dengan materi utama:
+                            </p>
+                            <p class="text-sm sm:text-base font-bold font-sans text-blue-900 dark:text-blue-300 uppercase tracking-wide">
+                                "BADAN USAHA DALAM PEREKONOMIAN"
+                            </p>
+
+                            <!-- Table Hasil Nilai -->
+                            <div class="max-w-md mx-auto my-4 bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 font-sans shadow-inner text-xs space-y-2">
+                                <div class="flex justify-between items-center border-b pb-1 dark:border-slate-700">
+                                    <span class="text-slate-500 dark:text-slate-400">Hasil Kuis Interaktif (15 Soal):</span>
+                                    <span id="certQuizScoreText" class="font-bold text-amber-600 dark:text-amber-400">0 / 100</span>
+                                </div>
+                                <div class="flex justify-between items-center border-b pb-1 dark:border-slate-700">
+                                    <span class="text-slate-500 dark:text-slate-400">Hasil Evaluasi Akhir PG (20 Soal):</span>
+                                    <span id="certEvalScoreText" class="font-bold text-blue-600 dark:text-blue-400">0 / 100</span>
+                                </div>
+                                <div class="flex justify-between items-center pt-1 font-bold">
+                                    <span class="text-slate-800 dark:text-white">Predikat / Status:</span>
+                                    <span id="certStatusText" class="px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">TUNTAS</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tanda Tangan & Cap Guru -->
+                        <div class="pt-4 flex justify-between items-end text-xs font-sans">
+                            <div class="text-center space-y-1">
+                                <div class="w-16 h-16 mx-auto rounded-full border-2 border-gold-500/50 flex items-center justify-center text-gold-500 font-extrabold text-xs opacity-80 uppercase tracking-tighter rotate-[-12deg]">
+                                    VERIFIED
+                                </div>
+                                <p class="text-slate-400 text-[10px]">Digital Authenticated</p>
+                            </div>
+
+                            <div class="text-center space-y-1">
+                                <p class="text-slate-600 dark:text-slate-400">Tehoru, <span id="certDateDisplay">03 November 2026</span></p>
+                                <p class="font-semibold text-slate-800 dark:text-white">Guru Mata Pelajaran Ekonomi</p>
+                                <div class="h-12 flex items-center justify-center italic text-blue-600 dark:text-blue-400 font-bold text-sm">
+                                    Sumila Mahu, S.Pd.
+                                </div>
+                                <p class="font-bold underline text-navy-900 dark:text-white">SUMILA MAHU, S.Pd.</p>
+                                <p class="text-[10px] text-slate-500">NIP. SMAS Al-Hilaal Tehoru</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= 9. EVALUASI PEMBELAJARAN ================= -->
+                <section id="section-evaluasi" class="tab-content hidden space-y-6">
+                    <div class="border-b border-slate-200 dark:border-slate-700 pb-4">
+                        <h2 class="text-2xl font-bold text-navy-900 dark:text-white flex items-center gap-3">
+                            <i class="fa-solid fa-square-poll-vertical text-indigo-500"></i> Evaluasi Akhir Pembelajaran
+                        </h2>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Uji Komprehensif: 20 Soal Pilihan Ganda & 5 Soal Uraian HOTS.</p>
+                    </div>
+
+                    <!-- Evaluation Dashboard Summary -->
+                    <div id="evalSummaryCard" class="hidden bg-gradient-to-r from-navy-900 to-indigo-900 text-white p-6 rounded-2xl shadow-lg flex flex-col sm:flex-row justify-between items-center gap-4">
+                        <div>
+                            <h3 class="font-bold text-lg text-gold-400">Hasil Evaluasi Belajar Anda</h3>
+                            <p class="text-xs text-slate-300">Nilai Otomatis Pilihan Ganda: <span id="evalScoreVal" class="text-xl font-extrabold text-white">0</span> / 100</p>
+                        </div>
+                        <div id="evalStatusBadge" class="px-4 py-2 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950">
+                            TUNTAS
+                        </div>
+                    </div>
+
+                    <!-- Evaluation PG Section -->
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-md space-y-6">
+                        <h3 class="font-bold text-slate-800 dark:text-white text-base border-b pb-2 dark:border-slate-700">Bagian A: 20 Soal Pilihan Ganda</h3>
+                        <div id="evalPgContainer" class="space-y-6">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                        <button onclick="submitEvaluation()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow-lg transition">
+                            Kirim Jawaban Evaluasi Pilihan Ganda
+                        </button>
+                    </div>
+
+                    <!-- Essay Section -->
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-md space-y-4">
+                        <h3 class="font-bold text-slate-800 dark:text-white text-base border-b pb-2 dark:border-slate-700">Bagian B: 5 Soal Uraian HOTS & Rubrik Penilaian</h3>
+                        
+                        <div class="space-y-4 text-xs">
+                            <div class="p-4 bg-slate-50 dark:bg-slate-700/40 rounded-xl space-y-2">
+                                <p class="font-semibold text-slate-800 dark:text-slate-200">1. Analisis mengapa PT (Perseroan Terbatas) lebih mudah memperoleh tambahan modal investasi dibanding Perusahaan Perseorangan!</p>
+                                <textarea rows="2" class="w-full p-2.5 rounded-lg border dark:bg-slate-900 border-slate-300 dark:border-slate-600" placeholder="Jawaban uraian siswa..."></textarea>
+                                <details class="text-xs text-blue-600 dark:text-blue-400 cursor-pointer">
+                                    <summary class="font-semibold">Lihat Rubrik / Kunci Jawaban Acuan</summary>
+                                    <p class="mt-1 text-slate-600 dark:text-slate-300 italic">Acuan: PT dapat menerbitkan saham baru, menjual obligasi, dan memiliki badan hukum terpisah yang memberikan kepercayaan bank lebih tinggi dibanding aset pribadi perseorangan.</p>
+                                </details>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= 10. REFLEKSI PEMBELAJARAN ================= -->
+                <section id="section-refleksi" class="tab-content hidden space-y-6">
+                    <div class="border-b border-slate-200 dark:border-slate-700 pb-4">
+                        <h2 class="text-2xl font-bold text-navy-900 dark:text-white flex items-center gap-3">
+                            <i class="fa-solid fa-brain text-cyan-500"></i> Jurnal Refleksi (Deep Learning 3-2-1)
+                        </h2>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Pembelajaran Berkesadaran (*Mindful Learning*) untuk mengendapkan pemahaman materi.</p>
+                    </div>
+
+                    <form onsubmit="saveRefleksi(event)" class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-md space-y-5 text-xs">
+                        <div>
+                            <label class="block font-bold text-slate-800 dark:text-slate-200 mb-1">3 Hal Utama Yang Saya Pahami Hari Ini:</label>
+                            <textarea id="ref3" rows="3" required class="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900" placeholder="1... 2... 3..."></textarea>
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-800 dark:text-slate-200 mb-1">2 Hal Paling Menarik Terkait Badan Usaha di Kecamatan Tehoru:</label>
+                            <textarea id="ref2" rows="2" required class="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900" placeholder="1... 2..."></textarea>
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-800 dark:text-slate-200 mb-1">1 Pertanyaan Yang Masih Ingin Saya Tanyakan Kepada Ibu Guru:</label>
+                            <textarea id="ref1" rows="2" required class="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900" placeholder="Tuliskan pertanyaan..."></textarea>
+                        </div>
+
+                        <button type="submit" class="px-6 py-2.5 bg-cyan-600 hover:bg-cyan-700 text-white font-bold rounded-xl transition">
+                            Simpan Jurnal Refleksi
+                        </button>
+                    </form>
+                    <div id="refSuccess" class="hidden p-3 bg-cyan-100 dark:bg-cyan-950/50 text-cyan-800 dark:text-cyan-300 rounded-xl text-xs font-semibold">
+                        Jurnal refleksi berhasil disimpan dalam penyimpanan lokal browser!
+                    </div>
+                </section>
+
+                <!-- ================= 11. PROFIL PENGEMBANG ================= -->
+                <section id="section-profil" class="tab-content hidden space-y-6">
+                    <div class="border-b border-slate-200 dark:border-slate-700 pb-4">
+                        <h2 class="text-2xl font-bold text-navy-900 dark:text-white flex items-center gap-3">
+                            <i class="fa-solid fa-user-tie text-slate-400"></i> Profil Pengembang Media
+                        </h2>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Pengembang Media Pembelajaran Interaktif Kurikulum Merdeka.</p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-navy-900 via-slate-900 to-blue-950 text-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-700 flex flex-col sm:flex-row items-center sm:items-start gap-6">
+                        <div class="w-28 h-28 rounded-full bg-gold-500 text-navy-900 font-extrabold text-3xl flex items-center justify-center border-4 border-white shadow-xl shrink-0">
+                            SM
+                        </div>
+                        <div class="space-y-3 text-center sm:text-left">
+                            <div>
+                                <h3 class="text-2xl font-bold text-white">Sumila Mahu, S.Pd.</h3>
+                                <p class="text-sm text-gold-400 font-semibold">Guru Mata Pelajaran Ekonomi</p>
+                            </div>
+                            <div class="text-xs text-slate-300 space-y-1">
+                                <p><i class="fa-solid fa-school w-5 text-blue-400"></i> <b>Satuan Pendidikan:</b> SMAS Al-Hilaal Tehoru</p>
+                                <p><i class="fa-solid fa-location-dot w-5 text-red-400"></i> <b>Wilayah:</b> Kec. Tehoru, Kab. Maluku Tengah, Prov. Maluku</p>
+                                <p><i class="fa-solid fa-book w-5 text-emerald-400"></i> <b>Fokus Materi:</b> Badan Usaha dalam Perekonomian (Kelas XI)</p>
+                            </div>
+                            <p class="text-xs text-slate-400 italic pt-2 border-t border-slate-800">
+                                "Berkomitmen mewujudkan Pembelajaran Mendalam (Deep Learning) yang transformatif, menyenangkan, dan berakar pada kearifan lokal ekonomi Maluku."
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- BACK TO TOP & FOOTER -->
+            <div class="mt-8 pt-4 border-t border-slate-200 dark:border-slate-700/60 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 dark:text-slate-400 gap-2 no-print">
+                <p>Media Pembelajaran Interaktif Ekonomi XI &bull; Sumila Mahu, S.Pd.</p>
+                <button onclick="scrollToTop()" class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-700 dark:text-slate-200 font-semibold transition flex items-center gap-1">
+                    <i class="fa-solid fa-arrow-up"></i> Ke Atas
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Global Application State & Storage Keys
+        const STORAGE_KEY = 'ekonomi_xi_progress';
+        let state = {
+            readBabs: [],
+            quizScore: 0,
+            evalScore: 0,
+            currentBab: 1
+        };
+
+        // Quiz Questions (15 Items)
+        const quizData = [
+            { id: 1, q: "Kesatuan yuridis dan ekonomi yang bertujuan mencari keuntungan dinamakan...", options: ["Perusahaan", "Badan Usaha", "Pabrik", "Koperasi Usaha"], ans: 1, desc: "Badan Usaha adalah kesatuan yuridis (hukum) dan ekonomi, sedangkan perusahaan adalah tempat produksi fisik." },
+            { id: 2, q: "BUMN yang seluruh modalnya dimiliki negara dan tidak terbagi atas saham dinamakan...", options: ["Persero", "Perum", "CV", "Firma"], ans: 1, desc: "Perum modalnya 100% milik negara dan tidak terbagi atas saham." },
+            { id: 3, q: "Berikut ini contoh Badan Usaha Milik Negara berbentuk Persero, KECUALI...", options: ["PT PLN", "PT Telkom", "Perum BULOG", "PT Bank BRI"], ans: 2, desc: "Perum BULOG berbentuk Perum, bukan Persero." },
+            { id: 4, q: "Ciri utama anggota Sekutu Pasif dalam CV (Persekutuan Komanditer) adalah...", options: ["Mengelola perusahaan", "Hanya menyertakan modal", "Tanggung jawab tidak terbatas", "Menjadi Direktur Utama"], ans: 1, desc: "Sekutu Pasif hanya menyetorkan modal dan tidak terlibat dalam pengelolaan operasional." },
+            { id: 5, q: "Asas utama Koperasi Indonesia menurut UU No. 25 Tahun 1992 adalah...", options: ["Kapitalisme", "Kekeluargaan", "Individualis", "Keuntungan Maksimal"], ans: 1, desc: "Asas koperasi adalah kekeluargaan dan gotong royong." },
+            { id: 6, q: "Usaha mengambil hasil alam secara langsung tanpa mengolahnya lebih lanjut seperti menangkap ikan di Tehoru dinamakan...", options: ["Ekstraktif", "Agraris", "Jasa", "Industri"], ans: 0, desc: "Usaha ekstraktif langsung mengambil hasil alam." },
+            { id: 7, q: "Kelebihan utama Perseroan Terbatas (PT) dibandingkan Firma adalah...", options: ["Pendirian sangat mudah", "Tanggung jawab terbatas pada modal saham", "Tidak kena pajak", "Rahasia perusahaan terjamin"], ans: 1, desc: "Pemegang saham PT hanya bertanggung jawab sebatas saham yang dimiliki." },
+            { id: 8, q: "Sumber pendapatan asli daerah (PAD) dari sektor badan usaha dikontribusikan oleh...", options: ["BUMN", "BUMD", "BUMS Asing", "Koperasi Swasta"], ans: 1, desc: "BUMD menyetorkan deviden ke kas pemerintah daerah." },
+            { id: 9, q: "Perangkat organisasi Koperasi yang memegang kekuasaan tertinggi adalah...", options: ["Pengurus", "Pengawas", "Rapat Anggota (RAT)", "Pembina Koperasi"], ans: 2, desc: "Rapat Anggota (RAT) adalah pemegang kekuasaan tertinggi koperasi." },
+            { id: 10, q: "Sisa Hasil Usaha (SHU) Koperasi dibagikan kepada anggota berdasarkan...", options: ["Jumlah anak", "Jasa modal dan aktivitas transaksi anggota", "Status sosial", "Umur anggota"], ans: 1, desc: "SHU dibagikan adil berdasarkan partisipasi jasa modal dan transaksi." },
+            { id: 11, q: "Berikut yang bukan merupakan bentuk BUMS adalah...", options: ["Firma", "CV", "PT", "Perumda"], ans: 3, desc: "Perumda adalah bentuk Badan Usaha Milik Daerah." },
+            { id: 12, q: "Landasan idiil Koperasi Indonesia adalah...", options: ["UUD 1945", "Pancasila", "TAP MPR", "Peraturan Presiden"], ans: 1, desc: "Landasan idiil Koperasi adalah Pancasila." },
+            { id: 13, q: "Salah satu kelemahan Perusahaan Perseorangan adalah...", options: ["Keputusan lambat", "Tanggung jawab tidak terbatas pada harta pribadi", "Laba dibagi banyak orang", "Pajak sangat tinggi"], ans: 1, desc: "Pemilik pribadi menanggung seluruh kerugian hingga harta pribadinya." },
+            { id: 14, q: "Di bawah ini BUMN yang bergerak di bidang jasa keuangan perbankan adalah...", options: ["PT Mandiri", "PT KAI", "PT Pelni", "PT Pos Indonesia"], ans: 0, desc: "Bank Mandiri adalah Persero BUMN jasa keuangan." },
+            { id: 15, q: "Manfaat keberadaan Koperasi Nelayan di Kecamatan Tehoru adalah...", options: ["Menarik pajak daerah", "Memutus rantai ketergantungan pada tengkulak", "Menjual saham ke bursa efek", "Menghapus usaha swasta"], ans: 1, desc: "Koperasi membantu nelayan menjual hasil tangkapan dengan harga adil." }
+        ];
+
+        // Evaluation PG Data (20 Items)
+        const evalPgData = [
+            { id: 1, q: "Perbedaan mendasar antara badan usaha dan perusahaan terletak pada aspek...", options: ["Jumlah karyawan", "Yuridis keuangan vs unit produksi teknis", "Lokasi usaha", "Gaji direksi"], ans: 1 },
+            { id: 2, q: "Target utama dari BUMN berstatus Persero adalah...", options: ["Pelayanan murni", "Mencari keuntungan (profit)", "Membantu daerah", "Menerbitkan obligasi daerah"], ans: 1 },
+            { id: 3, q: "Sekutu Aktif pada badan usaha CV bertugas untuk...", options: ["Menonton laporan", "Mengelola operasional dan menanggung risiko", "Menyetor modal saja", "Memeriksa pajak"], ans: 1 },
+            { id: 4, q: "Modal Koperasi yang berasal dari setoran pertama kali saat menjadi anggota dinamakan...", options: ["Simpanan Wajib", "Simpanan Pokok", "Simpanan Sukarela", "Hibah"], ans: 1 },
+            { id: 5, q: "Badan usaha yang modalnya berasal dari luar negeri dan beroperasi di Indonesia disebut...", options: ["BUMD", "BUMS Asing", "BUMS Domestik", "Koperasi Internasional"], ans: 1 },
+            { id: 6, q: "Pertamina dan Telkom Indonesia termasuk dalam kategori...", options: ["BUMD Maluku", "BUMN Persero", "Perum", "Firma"], ans: 1 },
+            { id: 7, q: "Fungsi sosial badan usaha tercermin dari tindakan...", options: ["Menaikkan harga", "Memberikan program CSR dan beasiswa", "Membayar dividen", "Menjual aset"], ans: 1 },
+            { id: 8, q: "Struktur organisasi Koperasi yang bertugas mengawasi jalannya pengelolaan adalah...", options: ["Pengurus", "Pengawas", "RAT", "Sekretaris"], ans: 1 },
+            { id: 9, q: "Salah satu contoh BUMD di Maluku adalah...", options: ["PT PLN", "Bank Maluku Malut", "PT Semen Tonasa", "PT Freeport"], ans: 1 },
+            { id: 10, q: "PT Freeport Indonesia setelah divestasi saham mayoritasnya menjadi bagian dari BUMN holding...", options: ["MIND ID", "MIND Sultra", "Inalum Daerah", "Pertamina"], ans: 0 },
+            { id: 11, q: "Usaha mengolah buah Pala menjadi Manisan Pala di Tehoru termasuk jenis usaha...", options: ["Ekstraktif", "Industri Pengolahan", "Jasa", "Perdagangan"], ans: 1 },
+            { id: 12, q: "Ciri Firma adalah...", options: ["Menggunakan nama bersama", "Hanya satu pemilik", "Modal dari negara", "Tidak ada akta"], ans: 0 },
+            { id: 13, q: "Simpanan anggota Koperasi yang dibayarkan secara rutin setiap bulan adalah...", options: ["Simpanan Pokok", "Simpanan Wajib", "Simpanan Sukarela", "SHU"], ans: 1 },
+            { id: 14, q: "Peran BUMN sebagai Agen Pembangunan berarti...", options: ["Mencari laba setinggi-tingginya", "Membangun infrastruktur di daerah terisolir meskipun belum menguntungkan", "Menjual barang impor", "Membuka kasino"], ans: 1 },
+            { id: 15, q: "Dalam PT, keputusan tertinggi pemilik modal diambil dalam...", options: ["Rapat Direksi", "RUPS (Rapat Umum Pemegang Saham)", "RAT", "Audit Pajak"], ans: 1 },
+            { id: 16, q: "BUMD dibentuk berdasarkan Peraturan...", options: ["Desa", "Daerah (Perda)", "Presiden", "Internasional"], ans: 1 },
+            { id: 17, q: "Prinsip Koperasi 'Pendidikan Perkoperasian' bertujuan untuk...", options: ["Mencari dana", "Meningkatkan kualitas SDM anggota", "Menyaingi swasta", "Menjual buku"], ans: 1 },
+            { id: 18, q: "Jika sebuah usaha perorangan bangkrut dan hutangnya lebih besar dari aset perusahaan, maka...", options: ["Harta pribadi pemilik ikut disita", "Hutang dianggap lunas", "Pemerintah membayar hutang", "Toko dijual murah"], ans: 0 },
+            { id: 19, q: "Pembagian SHU Koperasi mengacu pada prinsip...", options: ["Keadilan partisipasi ekonomi anggota", "Sama rata tanpa syarat", "Siapa paling kaya", "Sesuai keputusan ketua"], ans: 0 },
+            { id: 20, q: "Peran Badan Usaha terhadap penyerapan tenaga kerja di Tehoru bermanfaat untuk...", options: ["Mengurangi pengangguran dan kemiskinan", "Menaikkan suku bunga", "Menutup akses impor", "Mengurangi penduduk"], ans: 0 }
+        ];
+
+        // Initialize App
+        window.addEventListener('DOMContentLoaded', () => {
+            loadProgress();
+            renderQuiz();
+            renderEvalPg();
+            setupTheme();
+
+            // Mobile Sidebar Toggle
+            document.getElementById('sidebarToggleBtn').addEventListener('click', () => {
+                document.getElementById('sidebar').classList.remove('-translate-x-full');
+            });
+            document.getElementById('closeSidebarBtn').addEventListener('click', () => {
+                document.getElementById('sidebar').classList.add('-translate-x-full');
+            });
+        });
+
+        // Navigation Switcher
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active', 'bg-blue-600', 'text-white'));
+
+            const targetSection = document.getElementById(`section-${tabId}`);
+            if (targetSection) targetSection.classList.remove('hidden');
+
+            const activeNavBtn = document.querySelector(`[data-tab="${tabId}"]`);
+            if (activeNavBtn) activeNavBtn.classList.add('active', 'bg-blue-600', 'text-white');
+
+            // Auto close mobile menu
+            document.getElementById('sidebar').classList.add('-translate-x-full');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Chapter Navigator Logic
+        function switchBab(babNum) {
+            state.currentBab = babNum;
+            document.querySelectorAll('.bab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.bab-btn').forEach(el => {
+                el.classList.remove('bg-blue-600', 'text-white');
+                el.classList.add('bg-slate-100', 'dark:bg-slate-700', 'text-slate-600', 'dark:text-slate-300');
+            });
+
+            document.getElementById(`bab-${babNum}`).classList.remove('hidden');
+            const activeTab = document.getElementById(`bab-tab-${babNum}`);
+            activeTab.classList.remove('bg-slate-100', 'dark:bg-slate-700', 'text-slate-600', 'dark:text-slate-300');
+            activeTab.classList.add('bg-blue-600', 'text-white');
+        }
+
+        function prevBab() {
+            if (state.currentBab > 1) switchBab(state.currentBab - 1);
+        }
+
+        function nextBab() {
+            if (state.currentBab < 7) switchBab(state.currentBab + 1);
+        }
+
+        function markBabRead() {
+            if (!state.readBabs.includes(state.currentBab)) {
+                state.readBabs.push(state.currentBab);
+                saveProgress();
+                alert(`Selamat! Bab ${state.currentBab} berhasil ditandai selesai.`);
+            } else {
+                alert(`Bab ${state.currentBab} sudah pernah ditandai selesai.`);
+            }
+        }
+
+        // SHU Calculator
+        function calculateSHU() {
+            const totalSHU = parseFloat(document.getElementById('shuTotal').value) || 0;
+            const simpananUser = parseFloat(document.getElementById('shuSimpananUser').value) || 0;
+            const simpananTotal = parseFloat(document.getElementById('shuSimpananTotal').value) || 1;
+
+            // 20% Jasa Modal
+            const jasaModal = (simpananUser / simpananTotal) * (totalSHU * 0.20);
+            document.getElementById('shuResult').innerHTML = `
+                Estimasi SHU Jasa Modal Anda: <br><span class="text-base font-extrabold text-emerald-400">Rp ${jasaModal.toLocaleString('id-ID')}</span>
+            `;
+        }
+
+        // Render Quiz
+        function renderQuiz() {
+            const container = document.getElementById('quizContainer');
+            container.innerHTML = quizData.map((item, idx) => `
+                <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-700 space-y-3">
+                    <p class="font-bold text-xs sm:text-sm text-slate-800 dark:text-slate-200">${idx + 1}. ${item.q}</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        ${item.options.map((opt, oIdx) => `
+                            <button onclick="selectQuizOpt(${idx}, ${oIdx})" id="q-opt-${idx}-${oIdx}" class="quiz-opt-${idx} text-left p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs hover:bg-amber-500/10 transition">
+                                ${String.fromCharCode(65 + oIdx)}. ${opt}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div id="quiz-feedback-${idx}" class="hidden p-2.5 rounded-lg text-xs font-semibold"></div>
+                </div>
+            `).join('');
+        }
+
+        let quizUserAns = {};
+        function selectQuizOpt(qIdx, optIdx) {
+            quizUserAns[qIdx] = optIdx;
+            document.querySelectorAll(`.quiz-opt-${qIdx}`).forEach(btn => btn.classList.remove('bg-amber-500', 'text-white', 'border-amber-500'));
+            document.getElementById(`q-opt-${qIdx}-${optIdx}`).classList.add('bg-amber-500', 'text-white', 'border-amber-500');
+        }
+
+        function submitQuiz() {
+            let correctCount = 0;
+            quizData.forEach((item, idx) => {
+                const fb = document.getElementById(`quiz-feedback-${idx}`);
+                fb.classList.remove('hidden', 'bg-emerald-100', 'text-emerald-800', 'bg-red-100', 'text-red-800');
+                if (quizUserAns[idx] === item.ans) {
+                    correctCount++;
+                    fb.classList.add('bg-emerald-100', 'dark:bg-emerald-950/60', 'text-emerald-800', 'dark:text-emerald-300');
+                    fb.innerHTML = `<i class="fa-solid fa-check"></i> <b>Benar!</b> ${item.desc}`;
+                } else {
+                    fb.classList.add('bg-red-100', 'dark:bg-red-950/60', 'text-red-800', 'dark:text-red-300');
+                    fb.innerHTML = `<i class="fa-solid fa-xmark"></i> <b>Salah.</b> Jawaban benar: ${String.fromCharCode(65 + item.ans)}. ${item.desc}`;
+                }
+            });
+
+            const score = Math.round((correctCount / quizData.length) * 100);
+            state.quizScore = score;
+            saveProgress();
+            document.getElementById('quizBadgeScore').innerText = `Skor: ${score} / 100`;
+            alert(`Kuis Selesai! Skor Anda: ${score}`);
+        }
+
+        function resetQuiz() {
+            quizUserAns = {};
+            renderQuiz();
+            document.getElementById('quizBadgeScore').innerText = 'Skor: -';
+        }
+
+        // Interactive Mini Games Logic
+        function checkMatchingGame() {
+            const m1 = document.getElementById('match1').value;
+            const m2 = document.getElementById('match2').value;
+            const res = document.getElementById('matchResult');
+            res.classList.remove('hidden', 'bg-emerald-100', 'text-emerald-800', 'bg-red-100', 'text-red-800');
+
+            if (m1 === 'benar' && m2 === 'benar') {
+                res.classList.add('bg-emerald-100', 'text-emerald-800');
+                res.innerHTML = '<i class="fa-solid fa-trophy"></i> Luar biasa! Seluruh pasang istilah benar 100%.';
+            } else {
+                res.classList.add('bg-red-100', 'text-red-800');
+                res.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Masih ada pasangan yang belum tepat. Silakan periksa kembali.';
+            }
+        }
+
+        function answerTF(userAns) {
+            const res = document.getElementById('tfResult');
+            res.classList.remove('hidden', 'bg-emerald-100', 'text-emerald-800', 'bg-red-100', 'text-red-800');
+            if (userAns === false) {
+                res.classList.add('bg-emerald-100', 'text-emerald-800');
+                res.innerHTML = '<i class="fa-solid fa-check"></i> TEPAT SEKALI! Keuntungan BUMN Persero sebagian menjadi deviden negara untuk kas APBN.';
+            } else {
+                res.classList.add('bg-red-100', 'text-red-800');
+                res.innerHTML = '<i class="fa-solid fa-xmark"></i> JAWABAN KURANG TEPAT. BUMN adalah milik Negara, bukan swasta penuh.';
+            }
+        }
+
+        // Render Evaluation PG
+        function renderEvalPg() {
+            const container = document.getElementById('evalPgContainer');
+            container.innerHTML = evalPgData.map((item, idx) => `
+                <div class="p-3 bg-slate-50 dark:bg-slate-700/30 rounded-xl space-y-2 text-xs">
+                    <p class="font-bold text-slate-800 dark:text-slate-200">${idx + 1}. ${item.q}</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        ${item.options.map((opt, oIdx) => `
+                            <label class="flex items-center gap-2 p-2 rounded border border-slate-200 dark:border-slate-700 cursor-pointer hover:bg-indigo-500/10">
+                                <input type="radio" name="evalPg-${idx}" value="${oIdx}">
+                                <span>${String.fromCharCode(65 + oIdx)}. ${opt}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function submitEvaluation() {
+            let correct = 0;
+            evalPgData.forEach((item, idx) => {
+                const selected = document.querySelector(`input[name="evalPg-${idx}"]:checked`);
+                if (selected && parseInt(selected.value) === item.ans) {
+                    correct++;
+                }
+            });
+            const score = Math.round((correct / evalPgData.length) * 100);
+            state.evalScore = score;
+            saveProgress();
+
+            document.getElementById('evalSummaryCard').classList.remove('hidden');
+            document.getElementById('evalScoreVal').innerText = score;
+
+            const badge = document.getElementById('evalStatusBadge');
+            if (score >= 75) {
+                badge.innerText = "TUNTAS (Pengayaan)";
+                badge.className = "px-4 py-2 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950";
+            } else {
+                badge.innerText = "BELUM TUNTAS (Remedial)";
+                badge.className = "px-4 py-2 rounded-xl text-xs font-bold bg-red-500 text-white";
+            }
+            alert(`Evaluasi Selesai! Nilai Pilihan Ganda: ${score}`);
+        }
+
+        // Save LKPD & Refleksi
+        function submitLKPD(e) {
+            e.preventDefault();
+            document.getElementById('lkpdSuccessMsg').classList.remove('hidden');
+            setTimeout(() => document.getElementById('lkpdSuccessMsg').classList.add('hidden'), 4000);
+        }
+
+        function saveRefleksi(e) {
+            e.preventDefault();
+            document.getElementById('refSuccess').classList.remove('hidden');
+            setTimeout(() => document.getElementById('refSuccess').classList.add('hidden'), 4000);
+        }
+
+        // LocalStorage Progress Tracker
+        function saveProgress() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            updateUIProgress();
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                state = JSON.parse(saved);
+            }
+            updateUIProgress();
+        }
+
+        function resetAllProgress() {
+            if (confirm("Apakah Anda yakin ingin mereset seluruh progres belajar dan skor kuis?")) {
+                localStorage.removeItem(STORAGE_KEY);
+                state = { readBabs: [], quizScore: 0, evalScore: 0, currentBab: 1 };
+                updateUIProgress();
+                alert("Progres telah direset.");
+            }
+        }
+
+        function updateUIProgress() {
+            const readCount = state.readBabs.length;
+            const readPercent = Math.round((readCount / 7) * 100);
+
+            // Update Progress Bars
+            document.getElementById('topProgressBar').style.width = `${readPercent}%`;
+            document.getElementById('sidebarProgressBar').style.width = `${readPercent}%`;
+            document.getElementById('sidebarProgressPercent').innerText = `${readPercent}%`;
+
+            // Dashboard Widgets
+            document.getElementById('dashReadCount').innerText = `${readCount}/7`;
+            document.getElementById('dashQuizScore').innerText = state.quizScore || '0';
+            document.getElementById('dashEvalScore').innerText = state.evalScore || '-';
+            document.getElementById('dashPercentText').innerText = `${readPercent}%`;
+
+            const strokeDash = 201 - (201 * readPercent) / 100;
+            document.getElementById('dashCircleProgress').style.strokeDashoffset = strokeDash;
+
+            // Update Certificate Data Synchronization
+            updateCertPreview();
+        }
+
+        function updateCertPreview() {
+            const inputName = document.getElementById('certInputName')?.value.trim();
+            const inputClass = document.getElementById('certInputClass')?.value.trim();
+
+            if (inputName) {
+                document.getElementById('certNameDisplay').innerText = inputName.toUpperCase();
+            } else {
+                document.getElementById('certNameDisplay').innerText = "PESERTA DIDIK KELAS XI";
+            }
+
+            if (inputClass) {
+                document.getElementById('certClassDisplay').innerText = `NISN/Kelas: ${inputClass}`;
+            }
+
+            // Sync Scores
+            const quizScore = state.quizScore || 0;
+            const evalScore = state.evalScore || 0;
+            document.getElementById('certQuizScoreText').innerText = `${quizScore} / 100`;
+            document.getElementById('certEvalScoreText').innerText = `${evalScore} / 100`;
+
+            const averageScore = Math.round((quizScore + evalScore) / (state.evalScore ? 2 : 1));
+            const statusElem = document.getElementById('certStatusText');
+            
+            if (averageScore >= 85) {
+                statusElem.innerText = "SANGAT MEMUASKAN";
+                statusElem.className = "px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-bold";
+            } else if (averageScore >= 75) {
+                statusElem.innerText = "TUNTAS";
+                statusElem.className = "px-2.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300 font-bold";
+            } else {
+                statusElem.innerText = "PERLU REMIDI";
+                statusElem.className = "px-2.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 font-bold";
+            }
+
+            // Set dynamic certificate number & date
+            const today = new Date();
+            const dateStr = today.toLocaleDateString('id-ID', { day: '2-digit', month: 'Long', year: 'numeric' });
+            document.getElementById('certDateDisplay').innerText = dateStr;
+            
+            // Random unique hash based on name & score
+            const code = Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('certNumberDisplay').innerText = `CERT/EKON-XI/${today.getFullYear()}/${code}`;
+        }
+
+        // Theme Toggle
+        function setupTheme() {
+            const toggleBtn = document.getElementById('themeToggleBtn');
+            const icon = document.getElementById('themeIcon');
+
+            toggleBtn.addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+                if (document.documentElement.classList.contains('dark')) {
+                    icon.className = 'fa-solid fa-sun text-lg';
+                } else {
+                    icon.className = 'fa-solid fa-moon text-lg';
+                }
+            });
+        }
+
+        // Scroll to Top Helper
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
